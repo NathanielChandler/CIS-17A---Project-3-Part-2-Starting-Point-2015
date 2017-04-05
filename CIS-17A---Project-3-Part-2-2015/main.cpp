@@ -1,3 +1,4 @@
+#pragma once
 #include "Folder.h"
 #include <iostream>
 using namespace std;
@@ -9,7 +10,8 @@ void SearchFileMenu(shared_ptr<Folder> currentFolder);
 
 int main()
 {
-	auto currentFolder = make_shared<Folder>("Root");
+	const auto BASE = "Root";
+	auto currentFolder = make_shared<Folder>(BASE);
 	auto parentFolder = make_shared<Folder>();
 	parentFolder = nullptr;
 	int choice = 0;
@@ -34,8 +36,12 @@ int main()
 		case 5: SearchFileMenu(currentFolder); break;
 		case 4: AddFolderMenu(currentFolder); break;
 		case 6: {
-			if (parentFolder != nullptr) {
+			if (parentFolder != nullptr && currentFolder->getName() != BASE) {
 				currentFolder = parentFolder;
+				if (currentFolder->getName() == BASE)
+				{
+					parentFolder = nullptr;
+				}
 				cout << endl << "Now in folder " << currentFolder->getName() << "!";
 			}
 			break;
@@ -108,7 +114,12 @@ void SearchFileMenu(shared_ptr<Folder> currentFolder)
 	auto result = currentFolder->FindFile(name);
 	if (result != nullptr)
 	{
-		cout << "File Found" << endl;
-		system("pause");
+		cout << "File Found: " << result->getName()<< endl;
+		
 	}
+	else
+	{
+		cout << "File Not Found " << endl;
+	}
+	system("pause");
 }
