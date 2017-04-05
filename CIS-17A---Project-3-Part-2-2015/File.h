@@ -9,5 +9,6 @@ public:
 	~File();
 
 	std::string getName() { return _name; }
+	
 };
 
